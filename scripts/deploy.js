@@ -1,42 +1,31 @@
-import hre from "hardhat";
+import { ethers } from "hardhat";
 
 async function main() {
   console.log("Starting deployment...");
 
-  // Get viem clients (Hardhat v3 default)
-  const publicClient = await hre.viem.getPublicClient();
-  const [walletClient] = await hre.viem.getWalletClients();
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with account:", deployer.address);
 
-  const deployer = walletClient.account.address;
-  console.log("Deploying contracts with account:", deployer);
-
-  // -------------------------------
-  // Deploy AuthorizationManager
-  // -------------------------------
-  const authManager = await hre.viem.deployContract(
-    "AuthorizationManager",
-    [deployer]
+  const AuthorizationManager = await ethers.getContractFactory(
+    "AuthorizationManager"
   );
+  const authManager = await AuthorizationManager.deploy(deployer.address);
+  await authManager.waitForDeployment();
 
   console.log(
     "AuthorizationManager deployed at:",
-    authManager.address
+    await authManager.getAddress()
   );
 
-  // -------------------------------
-  // Deploy SecureVault
-  // -------------------------------
-  const vault = await hre.viem.deployContract(
-    "SecureVault",
-    [authManager.address]
-  );
+  const SecureVault = await ethers.getContractFactory("SecureVault");
+  const vault = await SecureVault.deploy(await authManager.getAddress());
+  await vault.waitForDeployment();
 
-  console.log("SecureVault deployed at:", vault.address);
-
+  console.log("SecureVault deployed at:", await vault.getAddress());
   console.log("Deployment completed successfully.");
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((error) => {
+  console.error(error);
   process.exit(1);
 });

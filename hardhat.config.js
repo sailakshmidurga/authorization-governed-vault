@@ -1,4 +1,4 @@
-import "@nomicfoundation/hardhat-viem";
+import "@nomicfoundation/hardhat-ethers";
 
 export default {
   solidity: "0.8.20",

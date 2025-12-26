@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/sailakshmidurga/authorization-governed-vault#readme",
   "devDependencies": {
-    "@nomicfoundation/hardhat-viem": "^3.0.1",
+    "@nomicfoundation/hardhat-ethers": "^4.0.3",
     "@types/node": "^22.19.3",
+    "ethers": "^6.16.0",
     "hardhat": "^3.1.0",
     "typescript": "~5.8.0"
   },
