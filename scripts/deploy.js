@@ -1,15 +1,9 @@
 import hre from "hardhat";
 
 async function main() {
-  const { ethers, network } = hre;
+  const { ethers } = hre;
 
   console.log("Starting deployment...");
-  console.log("Network name:", network.name);
-
-  // Get chainId directly from RPC (Hardhat v3 safe)
-  const chainIdHex = await network.provider.send("eth_chainId");
-  const chainId = parseInt(chainIdHex, 16);
-  console.log("Chain ID:", chainId);
 
   // Get deployer
   const [deployer] = await ethers.getSigners();
