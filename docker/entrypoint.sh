@@ -1,7 +1,10 @@
 #!/bin/sh
 set -e
 
-echo "Installing & compiling contracts..."
+echo "Compiling contracts..."
 npx hardhat compile
 
-echo "Entrypoint completed."
+echo "Deploying contracts..."
+npx hardhat run scripts/deploy.js --network localhost
+
+echo "All contracts deployed successfully."
