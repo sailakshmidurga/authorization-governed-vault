@@ -6,22 +6,24 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with account:", deployer.address);
 
+  // Deploy AuthorizationManager
   const AuthorizationManager = await ethers.getContractFactory(
     "AuthorizationManager"
   );
   const authManager = await AuthorizationManager.deploy(deployer.address);
   await authManager.waitForDeployment();
 
-  console.log(
-    "AuthorizationManager deployed at:",
-    await authManager.getAddress()
-  );
+  const authManagerAddress = await authManager.getAddress();
+  console.log("AuthorizationManager deployed at:", authManagerAddress);
 
+  // Deploy SecureVault
   const SecureVault = await ethers.getContractFactory("SecureVault");
-  const vault = await SecureVault.deploy(await authManager.getAddress());
+  const vault = await SecureVault.deploy(authManagerAddress);
   await vault.waitForDeployment();
 
-  console.log("SecureVault deployed at:", await vault.getAddress());
+  const vaultAddress = await vault.getAddress();
+  console.log("SecureVault deployed at:", vaultAddress);
+
   console.log("Deployment completed successfully.");
 }
 
