@@ -5,9 +5,13 @@ async function main() {
 
   console.log("Starting deployment...");
   console.log("Network name:", network.name);
-  console.log("Chain ID:", network.config.chainId);
 
-  // Get deployer account
+  // Get chainId directly from RPC (Hardhat v3 safe)
+  const chainIdHex = await network.provider.send("eth_chainId");
+  const chainId = parseInt(chainIdHex, 16);
+  console.log("Chain ID:", chainId);
+
+  // Get deployer
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with account:", deployer.address);
 
@@ -21,10 +25,9 @@ async function main() {
   const authorizationManager = await AuthorizationManager.deploy(
     deployer.address
   );
-
   await authorizationManager.waitForDeployment();
-  const authManagerAddress = await authorizationManager.getAddress();
 
+  const authManagerAddress = await authorizationManager.getAddress();
   console.log("AuthorizationManager deployed at:", authManagerAddress);
 
   // -------------------------------
@@ -33,10 +36,9 @@ async function main() {
   const SecureVault = await ethers.getContractFactory("SecureVault");
 
   const secureVault = await SecureVault.deploy(authManagerAddress);
-
   await secureVault.waitForDeployment();
-  const vaultAddress = await secureVault.getAddress();
 
+  const vaultAddress = await secureVault.getAddress();
   console.log("SecureVault deployed at:", vaultAddress);
 
   console.log("Deployment completed successfully.");
