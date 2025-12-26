@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  blockchain:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: >
+      sh -c "npm install && npx hardhat node"
+    ports:
+      - "8545:8545"
+
+  deployer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - blockchain
+    environment:
+      - HARDHAT_NETWORK=localhost
+    volumes:
+      - .:/app
