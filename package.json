@@ -24,7 +24,6 @@
     "hardhat": "^2.22.1",
     "typescript": "~5.8.0"
   },
-  "type": "module",
   "dependencies": {
     "@openzeppelin/contracts": "^5.4.0"
   }
