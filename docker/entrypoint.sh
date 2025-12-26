@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+echo "Waiting for blockchain..."
+sleep 5
+
 echo "Compiling contracts..."
 npx hardhat compile
 
