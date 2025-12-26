@@ -1,0 +1,26 @@
+{
+  "name": "authorization-governed-vault",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sailakshmidurga/authorization-governed-vault.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sailakshmidurga/authorization-governed-vault/issues"
+  },
+  "homepage": "https://github.com/sailakshmidurga/authorization-governed-vault#readme",
+  "devDependencies": {
+    "@types/node": "^22.19.3",
+    "hardhat": "^3.1.0",
+    "typescript": "~5.8.0"
+  },
+  "type": "module"
+}
