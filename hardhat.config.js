@@ -1,5 +1,5 @@
-import "@nomicfoundation/hardhat-ethers";
+require("@nomicfoundation/hardhat-ethers");
 
-export default {
+module.exports = {
   solidity: "0.8.20",
 };

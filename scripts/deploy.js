@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+const { ethers } = require("hardhat");
 
 async function main() {
   console.log("Starting deployment...");
@@ -10,18 +10,15 @@ async function main() {
     "AuthorizationManager"
   );
   const authManager = await AuthorizationManager.deploy(deployer.address);
-  await authManager.waitForDeployment();
+  await authManager.deployed();
 
-  console.log(
-    "AuthorizationManager deployed at:",
-    await authManager.getAddress()
-  );
+  console.log("AuthorizationManager deployed at:", authManager.address);
 
   const SecureVault = await ethers.getContractFactory("SecureVault");
-  const vault = await SecureVault.deploy(await authManager.getAddress());
-  await vault.waitForDeployment();
+  const vault = await SecureVault.deploy(authManager.address);
+  await vault.deployed();
 
-  console.log("SecureVault deployed at:", await vault.getAddress());
+  console.log("SecureVault deployed at:", vault.address);
   console.log("Deployment completed successfully.");
 }
 
