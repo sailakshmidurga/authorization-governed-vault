@@ -1,19 +1,19 @@
 import hre from "hardhat";
 
 async function main() {
-  const { ethers } = hre;
+  const { ethers, network } = hre;
 
   console.log("Starting deployment...");
+  console.log("Network name:", network.name);
+  console.log("Chain ID:", network.config.chainId);
 
-  // Network info
-  const network = await ethers.provider.getNetwork();
-  console.log("Network chainId:", network.chainId.toString());
-
-  // Deployer account
+  // Get deployer account
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with account:", deployer.address);
 
-  // 1️⃣ Deploy AuthorizationManager
+  // -------------------------------
+  // Deploy AuthorizationManager
+  // -------------------------------
   const AuthorizationManager = await ethers.getContractFactory(
     "AuthorizationManager"
   );
@@ -21,18 +21,22 @@ async function main() {
   const authorizationManager = await AuthorizationManager.deploy(
     deployer.address
   );
-  await authorizationManager.waitForDeployment();
 
+  await authorizationManager.waitForDeployment();
   const authManagerAddress = await authorizationManager.getAddress();
+
   console.log("AuthorizationManager deployed at:", authManagerAddress);
 
-  // 2️⃣ Deploy SecureVault
+  // -------------------------------
+  // Deploy SecureVault
+  // -------------------------------
   const SecureVault = await ethers.getContractFactory("SecureVault");
 
   const secureVault = await SecureVault.deploy(authManagerAddress);
-  await secureVault.waitForDeployment();
 
+  await secureVault.waitForDeployment();
   const vaultAddress = await secureVault.getAddress();
+
   console.log("SecureVault deployed at:", vaultAddress);
 
   console.log("Deployment completed successfully.");
